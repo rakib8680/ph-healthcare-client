@@ -13,17 +13,11 @@ import Link from "next/link";
 
 const RegisterPage = () => {
   return (
-    <Container
-      sx={{
-        padding: "50px",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <Container>
       <Stack
         sx={{
+          minHeight: "100vh",
+          display: "flex",
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -58,7 +52,6 @@ const RegisterPage = () => {
           <Box>
             <form>
               <Grid container spacing={3} my={1}>
-
                 {/* name  */}
                 <Grid item md={12}>
                   <TextField
