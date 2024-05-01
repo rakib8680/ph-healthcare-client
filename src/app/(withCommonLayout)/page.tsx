@@ -1,12 +1,13 @@
 import HeroSection from "@/components/Ui/HomePage/HeroSection/HeroSection";
 import Specialties from "@/components/Ui/HomePage/Specialties/Specialties";
-import { Button } from "@mui/material";
+import TopRatedDoctors from "@/components/Ui/HomePage/TopRatedDoctors/TopRatedDoctors";
 
 const HomePage = () => {
   return (
     <>
       <HeroSection />
       <Specialties />
+      <TopRatedDoctors />
     </>
   );
 };
