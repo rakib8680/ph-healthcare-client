@@ -16,6 +16,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { loginUser } from "@/services/actions/loginUser";
+import { storeUserInfo } from "@/services/auth.service";
 
 export type FormValues = {
   email: string;
@@ -36,6 +37,7 @@ const LoginPage = () => {
     try {
       const res = await loginUser(values);
       if (res.success) {
+        storeUserInfo(res.data.accessToken);
         toast.success(res.message);
         // router.push("/dashboard");
       }
