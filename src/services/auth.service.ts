@@ -20,7 +20,7 @@ export const storeUserInfo = (accessToken: string) => {
 
 
 // remove user info from local storage
-export const removeUserInfo = (accessToken: string) => {
+export const removeUserInfo = () => {
   return removeFromLocalStorage(authKey);
 };
 
