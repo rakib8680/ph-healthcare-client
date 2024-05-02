@@ -1,14 +1,11 @@
-
-'use client'
+"use client";
 
 import { getUserInfo, isLoggedIn } from "@/services/auth.service";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
 const Navbar = () => {
-
-
-  const userInfo = getUserInfo()
+  const userInfo = getUserInfo();
   console.log(isLoggedIn());
 
   return (
@@ -19,6 +16,7 @@ const Navbar = () => {
         justifyContent="space-between"
         alignItems="center"
       >
+        {/* logo */}
         <Typography variant="h4" component={Link} href="/" fontWeight={600}>
           P
           <Box component="span" color="primary.main">
@@ -27,6 +25,7 @@ const Navbar = () => {
           Health Care
         </Typography>
 
+        {/* nav items  */}
         <Stack direction="row" justifyContent="space-between" gap={4}>
           <Typography component={Link} href="/consultation">
             Consultation
@@ -44,10 +43,16 @@ const Navbar = () => {
             NGOs
           </Typography>
         </Stack>
-        
-        <Button component={Link} href="/login">
-          Login
-        </Button>
+
+        {/* conditionally render login/logout button */}
+        {userInfo?.userId ? (
+          <Button color="error">LogOut</Button>
+        ) : (
+          <Button component={Link} href="/login">
+            Login
+          </Button>
+        )}
+
       </Stack>
     </Container>
   );
