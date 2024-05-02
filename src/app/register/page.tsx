@@ -1,7 +1,9 @@
 "use client";
 
 import assets from "@/assets";
+import { loginUser } from "@/services/actions/loginUser";
 import { registerPatient } from "@/services/actions/registerPatient";
+import { storeUserInfo } from "@/services/auth.service";
 import { modifyPayloadData } from "@/utils/modifyPayloadData";
 import {
   Box,
@@ -24,7 +26,6 @@ interface IPatientData {
   contactNumber: string;
   address: string;
 }
-
 interface IPatientRegisterFormData {
   password: string;
   patient: IPatientData;
@@ -39,7 +40,6 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm<IPatientRegisterFormData>();
 
-
   // register handler function
   const onSubmit: SubmitHandler<IPatientRegisterFormData> = async (values) => {
     const modifiedData = modifyPayloadData(values);
@@ -49,14 +49,19 @@ const RegisterPage = () => {
 
       if (res.success) {
         toast.success(res.message);
-        router.push("/login");
+        // login user after registration
+        const response = await loginUser({
+          password: values.password,
+          email: values.patient.email,
+        });
+        if (response.success) {
+          storeUserInfo(response.data.accessToken);
+          router.push("/");
+        }
       }
-
-      // console.log(res);
     } catch (error: any) {
       console.log(error.message);
     }
-    // console.log(modifiedData);
   };
 
   return (
