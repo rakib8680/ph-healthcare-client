@@ -9,6 +9,7 @@ const Navbar = () => {
 
 
   const userInfo = getUserInfo()
+  // console.log(userInfo);
 
   return (
     <Container>
