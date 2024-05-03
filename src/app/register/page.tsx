@@ -22,16 +22,16 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
-interface IPatientData {
-  name: string;
-  email: string;
-  contactNumber: string;
-  address: string;
-}
-interface IPatientRegisterFormData {
-  password: string;
-  patient: IPatientData;
-}
+// interface IPatientData {
+//   name: string;
+//   email: string;
+//   contactNumber: string;
+//   address: string;
+// }
+// interface IPatientRegisterFormData {
+//   password: string;
+//   patient: IPatientData;
+// }
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -100,10 +100,14 @@ const RegisterPage = () => {
           <Box>
             <PHForm onSubmit={handleRegistration}>
               <Grid container spacing={3} my={1}>
-                
                 {/* name  */}
                 <Grid item md={12}>
-                  <PHInput name="patient.name" label="Name" fullWidth />
+                  <PHInput
+                    name="patient.name"
+                    label="Name"
+                    required={true}
+                    fullWidth
+                  />
                 </Grid>
 
                 {/* email  */}
@@ -113,6 +117,7 @@ const RegisterPage = () => {
                     label="Email"
                     type="email"
                     fullWidth
+                    required={true}
                   />
                 </Grid>
 
@@ -123,6 +128,7 @@ const RegisterPage = () => {
                     label="Password"
                     type="password"
                     fullWidth
+                    required={true}
                   />
                 </Grid>
 
@@ -133,6 +139,7 @@ const RegisterPage = () => {
                     label="Contact No."
                     type="tel"
                     fullWidth
+                    required={true}
                   />
                 </Grid>
 
@@ -143,6 +150,7 @@ const RegisterPage = () => {
                     label="Address"
                     type="text"
                     fullWidth
+                    required={true}
                   />
                 </Grid>
               </Grid>
