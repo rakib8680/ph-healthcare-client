@@ -105,7 +105,6 @@ const RegisterPage = () => {
                   <PHInput
                     name="patient.name"
                     label="Name"
-                    required={true}
                     fullWidth
                   />
                 </Grid>
@@ -117,7 +116,6 @@ const RegisterPage = () => {
                     label="Email"
                     type="email"
                     fullWidth
-                    required={true}
                   />
                 </Grid>
 
@@ -128,7 +126,6 @@ const RegisterPage = () => {
                     label="Password"
                     type="password"
                     fullWidth
-                    required={true}
                   />
                 </Grid>
 
@@ -139,7 +136,6 @@ const RegisterPage = () => {
                     label="Contact No."
                     type="tel"
                     fullWidth
-                    required={true}
                   />
                 </Grid>
 
@@ -150,7 +146,6 @@ const RegisterPage = () => {
                     label="Address"
                     type="text"
                     fullWidth
-                    required={true}
                   />
                 </Grid>
               </Grid>

@@ -10,7 +10,7 @@ type TInputProps = {
   fullWidth?: boolean;
   sx?: SxProps;
   placeholder?: string;
-  required:boolean
+  required?: boolean;
 };
 
 const PHInput = ({
@@ -22,7 +22,7 @@ const PHInput = ({
   fullWidth,
   sx,
   placeholder,
-  required
+  required,
 }: TInputProps) => {
   const { control } = useFormContext();
 
@@ -30,7 +30,7 @@ const PHInput = ({
     <Controller
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
           sx={{ ...sx }}
@@ -41,6 +41,8 @@ const PHInput = ({
           fullWidth={fullWidth || false}
           placeholder={placeholder || label}
           required={required}
+          error={!!error?.message}
+          helperText={error?.message}
         />
       )}
     />

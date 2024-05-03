@@ -4,18 +4,25 @@ import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { loginUser } from "@/services/actions/loginUser";
 import { storeUserInfo } from "@/services/auth.service";
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export type FormValues = {
   email: string;
   password: string;
 };
+
+export const validationSchema = z.object({
+  email: z.string().email("Please provide a valid email address"),
+  password: z.string().min(4, "Password must be at least 4 characters"),
+});
 
 const LoginPage = () => {
   const router = useRouter();
@@ -72,7 +79,11 @@ const LoginPage = () => {
 
           <Box>
             {/* form */}
-            <PHForm onSubmit={handleLogin}>
+            <PHForm
+              onSubmit={handleLogin}
+              resolver={zodResolver(validationSchema)}
+              defaultValues={{ email: "", password: "" }}
+            >
               {/* email  and password */}
               <Grid container spacing={2} my={1}>
                 <Grid item md={6}>
@@ -81,7 +92,6 @@ const LoginPage = () => {
                     label="Email"
                     type="email"
                     fullWidth={true}
-                    required={true}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -91,7 +101,6 @@ const LoginPage = () => {
                     size="small"
                     type="password"
                     fullWidth={true}
-                    required={true}
                   />
                 </Grid>
               </Grid>
