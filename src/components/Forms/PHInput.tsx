@@ -13,7 +13,7 @@ type TInputProps = {
 const PHInput = ({
   name,
   label,
-  type = "text",
+  type,
   size,
   variant,
   fullWidth,
@@ -28,7 +28,7 @@ const PHInput = ({
         <TextField
           {...field}
           label={label}
-          type={type}
+          type={type || "text"}
           variant={variant || "outlined"}
           size={size || "small"}
           fullWidth={fullWidth || false}

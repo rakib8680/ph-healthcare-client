@@ -95,6 +95,7 @@ const LoginPage = () => {
                     name="password"
                     label="Password"
                     size="small"
+                    type="password"
                     fullWidth={true}
                   />
                 </Grid>

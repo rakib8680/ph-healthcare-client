@@ -1,6 +1,8 @@
 "use client";
 
 import assets from "@/assets";
+import PHForm from "@/components/Forms/PHForm";
+import PHInput from "@/components/Forms/PHInput";
 import { loginUser } from "@/services/actions/loginUser";
 import { registerPatient } from "@/services/actions/registerPatient";
 import { storeUserInfo } from "@/services/auth.service";
@@ -17,7 +19,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 interface IPatientData {
@@ -34,14 +36,8 @@ interface IPatientRegisterFormData {
 const RegisterPage = () => {
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IPatientRegisterFormData>();
-
   // register handler function
-  const onSubmit: SubmitHandler<IPatientRegisterFormData> = async (values) => {
+  const handleRegistration = async (values: FieldValues) => {
     const modifiedData = modifyPayloadData(values);
 
     try {
@@ -102,64 +98,51 @@ const RegisterPage = () => {
 
           {/* form */}
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <PHForm onSubmit={handleRegistration}>
               <Grid container spacing={3} my={1}>
+                
                 {/* name  */}
                 <Grid item md={12}>
-                  <TextField
-                    label="Name"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    {...register("patient.name")}
-                  />
+                  <PHInput name="patient.name" label="Name" fullWidth />
                 </Grid>
 
                 {/* email  */}
                 <Grid item md={6}>
-                  <TextField
+                  <PHInput
+                    name="patient.email"
                     label="Email"
-                    variant="outlined"
                     type="email"
-                    size="small"
                     fullWidth
-                    {...register("patient.email")}
                   />
                 </Grid>
 
                 {/* password  */}
                 <Grid item md={6}>
-                  <TextField
+                  <PHInput
+                    name="password"
                     label="Password"
                     type="password"
-                    variant="outlined"
-                    size="small"
                     fullWidth
-                    {...register("password")}
                   />
                 </Grid>
 
                 {/* Contact no  */}
                 <Grid item md={6}>
-                  <TextField
+                  <PHInput
+                    name="patient.contactNumber"
                     label="Contact No."
                     type="tel"
-                    variant="outlined"
-                    size="small"
                     fullWidth
-                    {...register("patient.contactNumber")}
                   />
                 </Grid>
 
                 {/* address  */}
                 <Grid item md={6}>
-                  <TextField
+                  <PHInput
+                    name="patient.address"
                     label="Address"
                     type="text"
-                    variant="outlined"
-                    size="small"
                     fullWidth
-                    {...register("patient.address")}
                   />
                 </Grid>
               </Grid>
@@ -170,7 +153,7 @@ const RegisterPage = () => {
                   Register
                 </Button>
               </Box>
-            </form>
+            </PHForm>
 
             <Typography
               component="p"
