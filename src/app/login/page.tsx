@@ -6,7 +6,6 @@ import {
   Container,
   Grid,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
@@ -18,6 +17,7 @@ import { toast } from "sonner";
 import { loginUser } from "@/services/actions/loginUser";
 import { storeUserInfo } from "@/services/auth.service";
 import PHForm from "@/components/Forms/PHForm";
+import PHInput from "@/components/Forms/PHInput";
 
 export type FormValues = {
   email: string;
@@ -27,9 +27,8 @@ export type FormValues = {
 const LoginPage = () => {
   const router = useRouter();
 
- 
   // login handler function
-  const handleLogin= async (values:FieldValues) => {
+  const handleLogin = async (values: FieldValues) => {
     try {
       const res = await loginUser(values);
       if (res.success) {
@@ -84,23 +83,19 @@ const LoginPage = () => {
               {/* email  and password */}
               <Grid container spacing={2} my={1}>
                 <Grid item md={6}>
-                  <TextField
+                  <PHInput
+                    name="email"
                     label="Email"
                     type="email"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("email")}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <PHInput
+                    name="password"
                     label="Password"
-                    type="password"
-                    variant="outlined"
                     size="small"
                     fullWidth={true}
-                    {...register("password")}
                   />
                 </Grid>
               </Grid>

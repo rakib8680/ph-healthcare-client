@@ -11,12 +11,15 @@ const PHForm = ({children, onSubmit}:TFormProps) => {
 
     const methods = useForm()
 
-    const submit:SubmitHandler<FieldValues> = (data) => console.log(data)
+    const submit:SubmitHandler<FieldValues> = (data) =>{ 
+      console.log(data)
+      onSubmit(data)
+    }
 
   return (
     <FormProvider {...methods}>
     <form onSubmit={methods.handleSubmit(submit)}>
-      <input type="submit" />
+      {children}
     </form>
   </FormProvider>
   )
