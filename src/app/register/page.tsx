@@ -12,6 +12,7 @@ import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -53,6 +54,7 @@ export const patientDefaultValues = {
 
 const RegisterPage = () => {
   const router = useRouter();
+  const [error, setError] = useState("");
 
   // register handler function
   const handleRegistration = async (values: FieldValues) => {
@@ -72,6 +74,9 @@ const RegisterPage = () => {
           storeUserInfo(response.data.accessToken);
           router.push("/");
         }
+      } else {
+        setError(res.message);
+        console.log(error);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -113,6 +118,26 @@ const RegisterPage = () => {
               </Typography>
             </Box>
           </Stack>
+
+          {/* error message */}
+          <Box>
+            {error && (
+              <Typography
+                component="p"
+                color="error"
+                fontWeight={300}
+                textAlign="center"
+                sx={{
+                  margin: "10px 0px",
+                  backgroundColor: "rgba(255, 0, 0, 0.1)",
+                  padding: "10px",
+                  borderRadius: "5px",
+                }}
+              >
+                {error}
+              </Typography>
+            )}
+          </Box>
 
           {/* form */}
           <Box>

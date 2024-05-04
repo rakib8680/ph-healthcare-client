@@ -81,6 +81,7 @@ const LoginPage = () => {
             </Box>
           </Stack>
 
+            {/* error message */}
           <Box>
             {error && (
               <Typography
