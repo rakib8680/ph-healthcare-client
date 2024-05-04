@@ -13,6 +13,7 @@ import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 export type FormValues = {
   email: string;
@@ -26,6 +27,7 @@ export const validationSchema = z.object({
 
 const LoginPage = () => {
   const router = useRouter();
+  const [error, setError] = useState("");
 
   // login handler function
   const handleLogin = async (values: FieldValues) => {
@@ -35,6 +37,8 @@ const LoginPage = () => {
         storeUserInfo(res.data.accessToken);
         toast.success(res.message);
         router.push("/");
+      } else {
+        setError(res.message);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -76,6 +80,25 @@ const LoginPage = () => {
               </Typography>
             </Box>
           </Stack>
+
+          <Box>
+            {error && (
+              <Typography
+                component="p"
+                color="error"
+                fontWeight={300}
+                textAlign="center"
+                sx={{
+                  margin: "10px 0px",
+                  backgroundColor: "rgba(255, 0, 0, 0.1)",
+                  padding: "10px",
+                  borderRadius: "5px",
+                }}
+              >
+                {error}
+              </Typography>
+            )}
+          </Box>
 
           <Box>
             {/* form */}
