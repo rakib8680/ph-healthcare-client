@@ -7,20 +7,14 @@ import { loginUser } from "@/services/actions/loginUser";
 import { registerPatient } from "@/services/actions/registerPatient";
 import { storeUserInfo } from "@/services/auth.service";
 import { modifyPayloadData } from "@/utils/modifyPayloadData";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 
 // interface IPatientData {
 //   name: string;
@@ -32,6 +26,30 @@ import { toast } from "sonner";
 //   password: string;
 //   patient: IPatientData;
 // }
+
+export const patientValidationSchema = z.object({
+  name: z.string().min(1, "Please provide your name"),
+  email: z.string().email("Please provide a valid email address"),
+  contactNumber: z
+    .string()
+    .regex(/^\d{11}$/, "Please provide a valid contact number"),
+  address: z.string().min(2, "Please provide your address"),
+});
+
+export const validationSchema = z.object({
+  password: z.string().min(4, "Password must be at least 4 characters"),
+  patient: patientValidationSchema,
+});
+
+export const patientDefaultValues = {
+  password: "",
+  patient: {
+    name: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+  },
+};
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -98,15 +116,15 @@ const RegisterPage = () => {
 
           {/* form */}
           <Box>
-            <PHForm onSubmit={handleRegistration}>
+            <PHForm
+              onSubmit={handleRegistration}
+              resolver={zodResolver(validationSchema)}
+              defaultValues={patientDefaultValues}
+            >
               <Grid container spacing={3} my={1}>
                 {/* name  */}
                 <Grid item md={12}>
-                  <PHInput
-                    name="patient.name"
-                    label="Name"
-                    fullWidth
-                  />
+                  <PHInput name="patient.name" label="Name" fullWidth />
                 </Grid>
 
                 {/* email  */}

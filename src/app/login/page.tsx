@@ -21,7 +21,7 @@ export type FormValues = {
 
 export const validationSchema = z.object({
   email: z.string().email("Please provide a valid email address"),
-  password: z.string().min(4, "Password must be at least 4 characters"),
+  password: z.string().min(4, "Please provide your password"),
 });
 
 const LoginPage = () => {
