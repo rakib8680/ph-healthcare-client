@@ -44,6 +44,10 @@ export default function DashboardDrawer({
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          background: "#f4f7fe",
+          boxShadow: 0,
+          borderBottom: "1px solid lightgray",
+          //   color: "primary.main",
         }}
       >
         <Toolbar>
@@ -52,13 +56,23 @@ export default function DashboardDrawer({
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { sm: "none" }, color: "primary.main" }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Responsive drawer
-          </Typography>
+          <Box>
+            <Typography color="gray" variant="body2" noWrap component="div">
+              Hi Rakib Khan
+            </Typography>
+            <Typography
+              color="primary.main"
+              variant="body2"
+              noWrap
+              component="div"
+            >
+              Welcome To PH Health Care !
+            </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
