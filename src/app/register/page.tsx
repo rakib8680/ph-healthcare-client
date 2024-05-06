@@ -72,7 +72,7 @@ const RegisterPage = () => {
         });
         if (response.success) {
           storeUserInfo(response.data.accessToken);
-          router.push("/");
+          router.push("/dashboard");
         }
       } else {
         setError(res.message);
