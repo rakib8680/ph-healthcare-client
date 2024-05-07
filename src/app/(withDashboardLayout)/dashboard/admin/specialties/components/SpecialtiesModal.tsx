@@ -3,7 +3,8 @@ import PHFileUploader from "@/components/Forms/PHFileUploader";
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import PHModal from "@/components/Shared/PHModal/PHModal";
-import { Button, Grid, styled } from "@mui/material";
+import { modifyPayloadData } from "@/utils/modifyPayloadData";
+import { Button, Grid } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
 
@@ -12,9 +13,16 @@ type TProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+
 const SpecialtiesModal = ({ open, setOpen }: TProps) => {
   // create a new specialty
-  const handleSubmit = (values: FieldValues) => {};
+  const handleSubmit = (values: FieldValues) => {
+    const data = modifyPayloadData(values);
+    try {
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <PHModal open={open} setOpen={setOpen} title="Create a new Specialty">
@@ -24,7 +32,7 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
             <PHInput name="title" label="Title" />
           </Grid>
           <Grid item md={6}>
-            <PHFileUploader/>
+            <PHFileUploader name="file" label="Upload File" />
           </Grid>
         </Grid>
         <Button
