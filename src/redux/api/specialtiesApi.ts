@@ -13,6 +13,7 @@ const specialtiesApi = baseApi.injectEndpoints({
         contentType: "multipart/form-data",
         data,
       }),
+      invalidatesTags: ["specialties"],
     }),
   }),
 });
