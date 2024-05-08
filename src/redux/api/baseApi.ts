@@ -15,3 +15,4 @@ import { tagTypesList } from "../tag-types";
     }),
     endpoints:(builder) =>({})
   });
+  
