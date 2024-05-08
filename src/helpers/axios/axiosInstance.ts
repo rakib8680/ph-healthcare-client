@@ -8,7 +8,8 @@ instance.defaults.headers.post["Content-Type"] = "application/json"; // this mak
 instance.defaults.headers["Accept"] = "application/json"; // this makes sure that all requests made by this instance have the accept header set to application/json
 instance.defaults.timeout = 60000; // this means that if the request takes more than 60 seconds, it will be aborted
 
-// Add a request interceptor
+
+// Customize the request configuration
 instance.interceptors.request.use(
   function (config) {
     const accessToken = getFromLocalStorage(authKey);
@@ -24,7 +25,8 @@ instance.interceptors.request.use(
   }
 );
 
-// Add a response interceptor
+
+// Customize the response configuration
 instance.interceptors.response.use(
   //@ts-ignore
   function (response) {
