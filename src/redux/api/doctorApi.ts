@@ -28,6 +28,7 @@ export const doctorApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.doctor],
     }),
+    
   }),
 });
 

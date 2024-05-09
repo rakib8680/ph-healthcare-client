@@ -7,6 +7,7 @@ import { useGetAllDoctorsQuery } from "@/redux/api/doctorApi";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { toast } from "sonner";
+import { useDebounced } from "@/redux/hooks";
 
 
 
@@ -14,8 +15,22 @@ import { toast } from "sonner";
 
 
 const DoctorsPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { data, isLoading } = useGetAllDoctorsQuery({});
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); 
+
+  // Queries 
+  const query:Record<string, any> =  {}
+  const [searchTerm, setSearchTerm] = useState<string>("")
+  const debouncedTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600
+  })
+  if(!!debouncedTerm){
+  query['searchTerm'] = searchTerm;
+  }
+
+
+  // Api Calling 
+  const { data, isLoading } = useGetAllDoctorsQuery({...query});
   const doctors = data?.doctors
   const meta = data?.meta
   // console.log(doctors);
@@ -25,12 +40,13 @@ const DoctorsPage = () => {
 
     // delete Doctors function
     const handleDelete = async (id: string) => {
+      console.log(id);
       try {
-        const res = await deleteDoctor(id).unwrap();
+        // const res = await deleteDoctor(id).unwrap();
         // console.log(res);
-        if (res?.id) {
-          toast.success("Doctor Deleted Successfully");
-        }
+        // if (res?.id) {
+        //   toast.success("Doctor Deleted Successfully");
+        // }
       } catch (error: any) {
         console.log(error.message);
       }
@@ -67,7 +83,7 @@ const DoctorsPage = () => {
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Button onClick={() => setIsModalOpen(true)}>Create New Doctor</Button>
         <DoctorModal open={isModalOpen} setOpen={setIsModalOpen} />
-        <TextField size="small" placeholder="search doctors" />
+        <TextField onChange={(e)=>setSearchTerm(e.target.value)} size="small" placeholder="search doctors" />
       </Stack>
       {isLoading ? (
         <Box
