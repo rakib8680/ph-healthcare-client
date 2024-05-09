@@ -91,7 +91,7 @@ const SpecialtiesPage = () => {
         </Box>
       ) : (
         <Box my={3}>
-          <DataGrid rows={AllSpecialties} columns={columns} />
+          <DataGrid rows={AllSpecialties} columns={columns} hideFooter={true} />
         </Box>
       )}
     </Box>
