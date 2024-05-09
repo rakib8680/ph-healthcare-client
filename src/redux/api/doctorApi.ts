@@ -23,13 +23,23 @@ export const doctorApi = baseApi.injectEndpoints({
       transformResponse: (response: IDoctor[], meta: TMeta) => {
         return {
           meta,
-          doctors: response
+          doctors: response,
         };
       },
       providesTags: [tagTypes.doctor],
     }),
-    
+    deleteDoctor: builder.mutation({
+      query: (id) => ({
+        url: `/doctor/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.doctor],
+    }),
   }),
 });
 
-export const { useCreateDoctorMutation, useGetAllDoctorsQuery} = doctorApi;
+export const {
+  useCreateDoctorMutation,
+  useGetAllDoctorsQuery,
+  useDeleteDoctorMutation,
+} = doctorApi;
