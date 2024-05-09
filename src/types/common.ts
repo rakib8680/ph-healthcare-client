@@ -33,3 +33,7 @@ export type TGenericErrorMessage = {
 };
 
 export type TUserRole = keyof typeof USER_ROLE;
+
+
+
+export const Gender = ["MALE", "FEMALE"];
