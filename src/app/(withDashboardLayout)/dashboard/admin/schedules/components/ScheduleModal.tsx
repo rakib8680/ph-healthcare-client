@@ -1,7 +1,9 @@
 
 import PHDatePicker from "@/components/Forms/PHDatePicker";
 import PHForm from "@/components/Forms/PHForm";
+import PHTimePicker from "@/components/Forms/PHTimePicker";
 import PHModal from "@/components/Shared/PHModal/PHModal";
+import { dateFormatter } from "@/utils/dateFormatter ";
 import { Button, Grid } from "@mui/material";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
@@ -14,9 +16,8 @@ type TProps = {
 const ScheduleModal = ({ open, setOpen }: TProps) => {
 
   const handleFormSubmit = async (values: FieldValues) => {
-    console.log(values);
-    // values.startDate = dateFormatter(values.startDate);
-    // values.endDate = dateFormatter(values.endDate);
+    values.startDate = dateFormatter(values.startDate);
+    values.endDate = dateFormatter(values.endDate);
     // values.startTime = timeFormatter(values.startTime);
     // values.endTime = timeFormatter(values.endTime);
     // console.log(values);
@@ -35,21 +36,21 @@ const ScheduleModal = ({ open, setOpen }: TProps) => {
   return (
     <PHModal open={open} setOpen={setOpen} title="Create Schedule">
       <PHForm onSubmit={handleFormSubmit}>
-        <Grid container spacing={2} sx={{ width: "400px" }}>
+        <Grid container spacing={3} sx={{ width: "400px" }}>
           <Grid item md={12}>
-            <PHDatePicker name="startDate" />
+            <PHDatePicker name="startDate" label="Start Date" />
           </Grid>
           <Grid item md={12}>
-            {/* <PHDatePicker name="endDate" label="End Date" /> */}
+            <PHDatePicker name="endDate" label="End Date" />
           </Grid>
           <Grid item md={6}>
-            {/* <PHTimePicker name="startTime" label="Start Time" /> */}
+            <PHTimePicker name="startTime" label="Start Time" />
           </Grid>
           <Grid item md={6}>
-            {/* <PHTimePicker name="endTime" label="End Time" /> */}
+            <PHTimePicker name="endTime" label="End Time" />
           </Grid>
         </Grid>
-        <Button type="submit" sx={{ mt: 1 }}>
+        <Button type="submit" sx={{ mt: 2 }}>
           Create
         </Button>
       </PHForm>

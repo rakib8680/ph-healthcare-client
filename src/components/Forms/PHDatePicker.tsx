@@ -39,6 +39,7 @@ const PHDatePicker = ({
             onChange={(date) => onChange(date)}
             value={value || Date.now()}
             timezone="system"
+            label={label}   
             disablePast
             slotProps={{
                 textField: {
