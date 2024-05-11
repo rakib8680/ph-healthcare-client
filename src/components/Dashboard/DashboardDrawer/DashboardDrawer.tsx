@@ -10,12 +10,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "@/app/(withDashboardLayout)/dashboard/Sidebar/Sidebar";
-import { CircularProgress } from "@mui/material";
+import { Avatar, Badge, CircularProgress, Stack } from "@mui/material";
 import { useGetSingleUserQuery } from "@/redux/api/userApi";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AccountMenu from "../AccountMenu/AccountMenu";
+
 
 const drawerWidth = 240;
-
-
 
 export default function DashboardDrawer({
   children,
@@ -24,8 +25,7 @@ export default function DashboardDrawer({
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const {data, isLoading} = useGetSingleUserQuery({});
-
+  const { data, isLoading } = useGetSingleUserQuery({});
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -66,8 +66,21 @@ export default function DashboardDrawer({
           >
             <MenuIcon />
           </IconButton>
-          <Box>
-            <Typography color="gray" variant="body2" noWrap component="div">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Typography
+              color="gray"
+              variant="body2"
+              noWrap
+              component="div"
+              sx={{ color: "rgba(11,17, 52, 0.6)" }}
+            >
               Hi, {isLoading ? <CircularProgress size={20} /> : data?.name} !
             </Typography>
             <Typography
@@ -78,6 +91,15 @@ export default function DashboardDrawer({
             >
               Welcome To PH Health Care !
             </Typography>
+            <Stack direction="row" gap={3}>
+              <Badge badgeContent={1} color="primary">
+                <IconButton sx={{ background: "#ffffff" }}>
+                  <NotificationsNoneIcon />
+                </IconButton>
+              </Badge>
+              <Avatar  alt={data?.name} src={data?.profilePhoto} />
+              <AccountMenu/>
+            </Stack>
           </Box>
         </Toolbar>
       </AppBar>
@@ -86,14 +108,13 @@ export default function DashboardDrawer({
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
