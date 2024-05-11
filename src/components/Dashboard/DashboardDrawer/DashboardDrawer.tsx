@@ -10,8 +10,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "@/app/(withDashboardLayout)/dashboard/Sidebar/Sidebar";
+import { CircularProgress } from "@mui/material";
+import { useGetSingleUserQuery } from "@/redux/api/userApi";
 
 const drawerWidth = 240;
+
+
 
 export default function DashboardDrawer({
   children,
@@ -20,6 +24,8 @@ export default function DashboardDrawer({
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const {data, isLoading} = useGetSingleUserQuery({});
+
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -62,7 +68,7 @@ export default function DashboardDrawer({
           </IconButton>
           <Box>
             <Typography color="gray" variant="body2" noWrap component="div">
-              Hi Rakib Khan
+              Hi, {isLoading ? <CircularProgress size={20} /> : data?.name} !
             </Typography>
             <Typography
               color="primary.main"
