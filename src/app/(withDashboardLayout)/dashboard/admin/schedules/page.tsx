@@ -2,7 +2,7 @@
 import { Box, Button, CircularProgress, IconButton } from "@mui/material";
 import ScheduleModal from "./components/ScheduleModal";
 import { useEffect, useState } from "react";
-import { useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
+import { useDeleteScheduleMutation, useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -19,6 +19,7 @@ const SchedulesPage = () => {
   const [allSchedule, setAllSchedule] = useState<any>([]);
 
   const { data, isLoading } = useGetAllSchedulesQuery({});
+  const [deleteSchedule] = useDeleteScheduleMutation();
 
   const schedules = data?.schedules;
   const meta = data?.meta;
@@ -43,11 +44,10 @@ const SchedulesPage = () => {
   // delete Doctors function
   const handleDelete = async (id: string) => {
     try {
-      // const res = await deleteDoctor(id).unwrap();
-      // console.log(res);
-      // if (res?.id) {
-      //   toast.success("Doctor Deleted Successfully");
-      // }
+      const res = await deleteSchedule(id).unwrap();
+      if (res?.id) {
+        toast.success("Doctor Deleted Successfully");
+      }
     } catch (error: any) {
       console.log(error.message);
     }
@@ -79,8 +79,8 @@ const SchedulesPage = () => {
               <DeleteIcon sx={{ color: "red" }} />
             </IconButton>
             <IconButton
-              aria-label="delete"
-              onClick={() => handleDelete(row.id)}
+              aria-label="edit"
+              // onClick={}
             >
               <EditIcon sx={{ color: "primary.main" }} />
             </IconButton>
