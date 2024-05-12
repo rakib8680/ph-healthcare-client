@@ -1,12 +1,13 @@
-'use client'
+"use client";
 
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import PHSelectField from "@/components/Forms/PHSelectField";
+import { useGetDoctorQuery, useUpdateDoctorMutation } from "@/redux/api/doctorApi";
 import { Gender } from "@/types";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import { FieldValues } from "react-hook-form";
-
+import { toast } from "sonner";
 
 type TParams = {
   params: {
@@ -16,17 +17,35 @@ type TParams = {
 
 
 
-
 const DoctorUpdatePage = ({ params }: TParams) => {
 
   const { doctorId } = params;
 
 
+  //   calling api
+  const { data, isLoading } = useGetDoctorQuery(doctorId);
+  const [updateDoctor] = useUpdateDoctorMutation();
 
+
+
+
+  // update doctor function
   const handleFormSubmit = async (values: FieldValues) => {
-    console.log(values);
+    // console.log(values);
+
+    values.experience = Number(values.experience);
+    values.apointmentFee = Number(values.apointmentFee);
+    values.id = doctorId;
+
+    // console.log(values);
+
+
     try {
-      //   console.log(res);
+        // const res = await updateDoctor(values).unwrap()
+        // console.log(res);
+        // if(res?.id){
+        //     toast.success("Doctor updated successfully!!!")
+        // }
     } catch (err: any) {
       console.error(err);
     }
@@ -34,37 +53,50 @@ const DoctorUpdatePage = ({ params }: TParams) => {
 
 
 
-
   const defaultValues = {
-      email: "",
-      name: "",
-      contactNumber: "",
-      address: "",
-      registrationNumber: "",
-      gender: "",
-      experience: 0,
-      apointmentFee: 0,
-      qualification: "",
-      currentWorkingPlace: "",
-      designation: "",
-      profilePhoto: "",
+    email: data?.email || "",
+    name: data?.name || "",
+    contactNumber: data?.contactNumber || "",
+    address: data?.address || "",
+    registrationNumber: data?.registrationNumber || "",
+    gender: data?.gender || "",
+    experience: data?.experience || 0,
+    apointmentFee: data?.apointmentFee || 0,
+    qualification: data?.qualification || "",
+    currentWorkingPlace: data?.currentWorkingPlace || "",
+    designation: data?.designation || "",
+    profilePhoto: data?.profilePhoto || "",
   };
 
 
 
 
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+
+
   return (
     <Box>
-      <Typography component='h4' variant="h4">Update Doctor Info</Typography>
+      <Typography component="h4" variant="h4">
+        Update {data?.name} Info
+      </Typography>
       <PHForm onSubmit={handleFormSubmit} defaultValues={defaultValues}>
         <Grid container spacing={2} sx={{ my: 5 }}>
           <Grid item xs={12} sm={12} md={4}>
-            <PHInput
-              name="name"
-              label="Name"
-              fullWidth={true}
-              sx={{ mb: 2 }}
-            />
+            <PHInput name="name" label="Name" fullWidth={true} sx={{ mb: 2 }} />
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
             <PHInput
@@ -75,7 +107,6 @@ const DoctorUpdatePage = ({ params }: TParams) => {
               sx={{ mb: 2 }}
             />
           </Grid>
-
 
           <Grid item xs={12} sm={12} md={4}>
             <PHInput
@@ -159,7 +190,5 @@ const DoctorUpdatePage = ({ params }: TParams) => {
     </Box>
   );
 };
-
-
 
 export default DoctorUpdatePage;
