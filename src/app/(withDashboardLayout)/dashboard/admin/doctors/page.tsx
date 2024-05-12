@@ -18,7 +18,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "sonner";
 import { useDebounced } from "@/redux/hooks";
-
+import EditIcon from "@mui/icons-material/Edit";
 
 
 const DoctorsPage = () => {
@@ -49,12 +49,12 @@ const DoctorsPage = () => {
   const handleDelete = async (id: string) => {
     try {
       const res = await deleteDoctor(id).unwrap();
-      console.log(res);
+      // console.log(res);
       if (res?.id) {
         toast.success("Doctor Deleted Successfully");
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.log(error?.message);
     }
   };
 
@@ -75,9 +75,17 @@ const DoctorsPage = () => {
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <IconButton aria-label="delete" onClick={() => handleDelete(row.id)}>
-            <DeleteIcon />
+          <Box>
+            <IconButton aria-label="delete" onClick={() => handleDelete(row.id)}>
+            <DeleteIcon sx={{color:'red'}} />
           </IconButton>
+           <IconButton
+           aria-label="edit"
+           // onClick={}
+         >
+           <EditIcon sx={{ color: "primary.main" }} />
+         </IconButton>
+          </Box>
         );
       },
     },
