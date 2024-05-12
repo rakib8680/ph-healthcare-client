@@ -19,10 +19,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "sonner";
 import { useDebounced } from "@/redux/hooks";
 import EditIcon from "@mui/icons-material/Edit";
+import Link from "next/link";
+
 
 
 const DoctorsPage = () => {
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+
 
   // Queries
   const query: Record<string, any> = {};
@@ -36,12 +41,14 @@ const DoctorsPage = () => {
   }
 
 
+
   // Api Calling
   const [deleteDoctor] = useDeleteDoctorMutation();
   const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
   const doctors = data?.doctors;
   const meta = data?.meta;
   // console.log(doctors);
+
 
 
 
@@ -57,6 +64,7 @@ const DoctorsPage = () => {
       console.log(error?.message);
     }
   };
+
 
 
 
@@ -76,15 +84,16 @@ const DoctorsPage = () => {
       renderCell: ({ row }) => {
         return (
           <Box>
-            <IconButton aria-label="delete" onClick={() => handleDelete(row.id)}>
-            <DeleteIcon sx={{color:'red'}} />
-          </IconButton>
-           <IconButton
-           aria-label="edit"
-           // onClick={}
-         >
-           <EditIcon sx={{ color: "primary.main" }} />
-         </IconButton>
+            <IconButton
+              aria-label="delete"
+              onClick={() => handleDelete(row.id)}
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+            <Link href={`/dashboard/admin/doctors/edit/${row.id}`}>
+            <IconButton aria-label="edit">
+              <EditIcon sx={{ color: "primary.main" }} />
+            </IconButton></Link>
           </Box>
         );
       },
@@ -92,7 +101,8 @@ const DoctorsPage = () => {
   ];
 
 
-  
+
+
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
