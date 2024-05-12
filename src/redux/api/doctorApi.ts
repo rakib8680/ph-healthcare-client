@@ -43,10 +43,10 @@ export const doctorApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.doctor],
     }),
     updateDoctor: builder.mutation({
-      query: (data) => ({
-        url: `/doctor/${data.id}`,
+      query: (payload) => ({
+        url: `/doctor/${payload.id}`,
         method: "PATCH",
-        data: data.body,
+        data: payload.body,
       }),
       invalidatesTags: [tagTypes.doctor],
     }),

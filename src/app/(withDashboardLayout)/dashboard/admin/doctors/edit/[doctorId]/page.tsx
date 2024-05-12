@@ -35,17 +35,19 @@ const DoctorUpdatePage = ({ params }: TParams) => {
 
     values.experience = Number(values.experience);
     values.apointmentFee = Number(values.apointmentFee);
-    values.id = doctorId;
 
-    // console.log(values);
+    const payload = {
+        id: doctorId,
+        body: values
+    }
 
 
     try {
-        // const res = await updateDoctor(values).unwrap()
+        const res = await updateDoctor(payload).unwrap()
         // console.log(res);
-        // if(res?.id){
-        //     toast.success("Doctor updated successfully!!!")
-        // }
+        if(res?.id){
+            toast.success("Doctor updated successfully!!!")
+        }
     } catch (err: any) {
       console.error(err);
     }
