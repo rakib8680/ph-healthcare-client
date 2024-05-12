@@ -1,12 +1,14 @@
 import { authKey } from "@/constants/authkey";
+import { getNewAccessToken } from "@/services/auth.service";
 import { TGenericErrorResponse, TResponseSuccess } from "@/types";
-import { getFromLocalStorage } from "@/utils/local-storage";
+import { getFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
 import axios from "axios";
 
 const instance = axios.create();
 instance.defaults.headers.post["Content-Type"] = "application/json"; // this makes sure that all requests made by this instance have the content-type set to application/json
 instance.defaults.headers["Accept"] = "application/json"; // this makes sure that all requests made by this instance have the accept header set to application/json
 instance.defaults.timeout = 60000; // this means that if the request takes more than 60 seconds, it will be aborted
+
 
 
 // Customize the request configuration
@@ -25,7 +27,6 @@ instance.interceptors.request.use(
   }
 );
 
-
 // Customize the response configuration
 instance.interceptors.response.use(
   //@ts-ignore
@@ -37,15 +38,25 @@ instance.interceptors.response.use(
 
     return responseObject;
   },
-  function (error) {
-    const responseObject: TGenericErrorResponse = {
-      statusCode: error?.response?.data?.statusCode || 500,
-      message: error?.response?.data?.message || "Something went wrong!!!",
-      errorMessages: error?.response?.data?.message,
-    };
+  async function (error) {
+    const config = error?.config;
+    if (error?.response.status === 500 && !config.sent) {
+      config.sent = true;
+      const response = await getNewAccessToken();
+      const accessToken = response?.data?.accessToken;
+      config.headers["Authorization"] = accessToken;
+      setToLocalStorage(authKey, accessToken);
+      return instance(config);
+    } else {
+      const responseObject: TGenericErrorResponse = {
+        statusCode: error?.response?.data?.statusCode || 500,
+        message: error?.response?.data?.message || "Something went wrong!!!",
+        errorMessages: error?.response?.data?.message,
+      };
 
-    // return Promise.reject(error);
-    return responseObject;
+      // return Promise.reject(error);
+      return responseObject;
+    }
   }
 );
 
