@@ -95,7 +95,7 @@ const DoctorUpdatePage = ({ params }: TParams) => {
       <Typography component="h4" variant="h4">
         Update {data?.name} Info
       </Typography>
-      <PHForm onSubmit={handleFormSubmit} defaultValues={defaultValues}>
+      <PHForm onSubmit={handleFormSubmit} defaultValues={data && defaultValues}>
         <Grid container spacing={2} sx={{ my: 5 }}>
           <Grid item xs={12} sm={12} md={4}>
             <PHInput name="name" label="Name" fullWidth={true} sx={{ mb: 2 }} />

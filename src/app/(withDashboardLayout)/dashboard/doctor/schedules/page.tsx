@@ -1,13 +1,37 @@
+'use client'
+
+import { Box, Button } from "@mui/material";
+import DoctorScheduleModal from "./components/DoctorScheduleModal";
+import { useState } from "react";
 
 
 
 
 
 const DoctorSchedules = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+
+
   return (
-     <div>
-         <h1>This is DoctorSchedules component</h1>
-     </div>
+    <Box>
+    <Button onClick={() => setIsModalOpen(true)}>
+       Create Doctor Schedule
+    </Button>
+    <DoctorScheduleModal open={isModalOpen} setOpen={setIsModalOpen} />
+    <Box sx={{ mb: 5 }}></Box>
+
+    <Box>
+       {/* {!isLoading ? (
+          <Box my={2}>
+             <DataGrid rows={allSchedule ?? []} columns={columns} />
+          </Box>
+       ) : (
+          <h1>Loading.....</h1>
+       )} */}
+    </Box>
+ </Box>
   )
 };
 
