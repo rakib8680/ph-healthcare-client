@@ -6,7 +6,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
-import MultipleSelectFieldChip from "./MultipleSelectFieldChip";
+import MultipleSelectFieldChip, { TSchedules } from "./MultipleSelectFieldChip";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
+import { useCreateDoctorScheduleMutation } from "@/redux/api/doctorScheduleApi";
+import { toast } from "sonner";
 
 
 type TProps = {
@@ -28,6 +32,7 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
     []
   );
 
+//   console.log(selectedSchedulesIds);
 
 
   //   query
@@ -48,19 +53,27 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
 
 
   //   call api
+  const [createDoctorSchedule, {isLoading:loading}] = useCreateDoctorScheduleMutation();
   const { data, isLoading } = useGetAllSchedulesQuery(query);
-
   const schedules = data?.schedules;
 
 
 
+//   create doctor schedules 
   const onSubmit = async () => {
-    console.log(selectedDate);
+    try {
+        const res = await createDoctorSchedule({scheduleIds:selectedSchedulesIds}).unwrap();
+        console.log(res);
+        if (res?.count>0) {
+          toast.success("Schedules created successfully!");
+        //   setOpen(false);
+        }
+      } catch (err: any) {
+        console.error(err.message);
+      }
   };
 
 
-
-  
 
   return (
     <PHModal open={open} setOpen={setOpen} title="Create Doctor Schedule">
@@ -74,8 +87,22 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
             }
           />
         </LocalizationProvider>
-        <MultipleSelectFieldChip schedules={schedules} />
-        <Button onClick={onSubmit}>Submit</Button>
+        <MultipleSelectFieldChip
+          schedules={schedules}
+          selectedScheduleIds={selectedSchedulesIds}
+          setSelectedSchedulesIds={setSelectedSchedulesIds}
+        />
+         <LoadingButton
+          size="medium"
+          color="secondary"
+          onClick={onSubmit}
+          loading={loading}
+          loadingIndicator="Submitting..."
+          startIcon={<SaveIcon />}
+          variant="contained"
+        >
+          <span>Save</span>
+        </LoadingButton>
       </Stack>
     </PHModal>
   );
