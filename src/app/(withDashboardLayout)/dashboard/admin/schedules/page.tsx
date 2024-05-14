@@ -25,6 +25,7 @@ const SchedulesPage = () => {
   const meta = data?.meta;
 
 
+  // modify the data to display 
   useEffect(() => {
     const updatedData = schedules?.map((schedule: TSchedule) => {
       return {

@@ -63,10 +63,10 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
   const onSubmit = async () => {
     try {
         const res = await createDoctorSchedule({scheduleIds:selectedSchedulesIds}).unwrap();
-        console.log(res);
+        // console.log(res);
         if (res?.count>0) {
           toast.success("Schedules created successfully!");
-        //   setOpen(false);
+          setOpen(false);
         }
       } catch (err: any) {
         console.error(err.message);
