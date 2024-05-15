@@ -1,31 +1,37 @@
 "use client";
 
-import { useGetMyProfileQuery } from "@/redux/api/userApi";
 import {
-  Box,
-  CircularProgress,
-  Container,
-  Stack,
-  Typography,
-  styled,
-} from "@mui/material";
+  useGetMyProfileQuery,
+  useUpdateMyProfileMutation,
+} from "@/redux/api/userApi";
+import { Box, CircularProgress, Container } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Image from "next/image";
-
-const StyledInformationBox = styled(Box)(({ theme }) => ({
-  background: "#f4f7fe",
-  borderRadius: theme.spacing(1),
-  width: "45%",
-  padding: "8px 16px",
-  "& p": {
-    fontWeight: "bold",
-  },
-}));
+import DoctorInformation from "../components/DoctorInformation";
+import AutoFileUploader from "@/components/Forms/AutoFileUploader";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { toast } from "sonner";
 
 const DoctorProfile = () => {
   const { data, isLoading } = useGetMyProfileQuery(undefined);
+  const [updateProfile, { isLoading: updating }] = useUpdateMyProfileMutation();
 
   // console.log(data);
+
+  // update profile handler
+  const fileUploadHandler = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("data", JSON.stringify({}));
+
+    try {
+      const res = await updateProfile(formData).unwrap();
+      // console.log(res);
+      if (res?.id) {
+        toast.success("Profile Photo Updated Successfully");
+      }
+    } catch (error) {}
+  };
 
   if (isLoading) {
     <Box
@@ -43,7 +49,7 @@ const DoctorProfile = () => {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid xs={4}>
+        <Grid xs={12} md={4}>
           <Box
             sx={{
               height: 300,
@@ -59,110 +65,20 @@ const DoctorProfile = () => {
               alt="profile-photo"
             />
           </Box>
+
+          {updating ? (
+            <CircularProgress sx={{ display: "block", margin: "auto" }} />
+          ) : (
+            <AutoFileUploader
+              name="file"
+              label="Choose Your Profile Photo"
+              icon={<CloudUploadIcon />}
+              onFileUpload={fileUploadHandler}
+            />
+          )}
         </Grid>
-        <Grid xs={8}>
-          <>
-            <Typography variant="h5" color="primary.main" mb={2}>
-              Personal Information
-            </Typography>
-
-            <Stack
-              direction={{ xs: "column", md: "row" }}
-              gap={2}
-              flexWrap={"wrap"}
-            >
-              <StyledInformationBox>
-                <Typography color="secondary" variant="caption">
-                  Role
-                </Typography>
-                <Typography>{data?.role}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography color="secondary" variant="caption">
-                  Name
-                </Typography>
-                <Typography>{data?.name}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography color="secondary" variant="caption">
-                  Email
-                </Typography>
-                <Typography>{data?.email}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography color="secondary" variant="caption">
-                  Gender
-                </Typography>
-                <Typography>{data?.gender}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography variant="caption" color="secondary">
-                  Designation
-                </Typography>
-                <Typography>{data?.designation}</Typography>
-              </StyledInformationBox>
-            </Stack>
-
-            <Typography variant="h5" my={2} color={"primary.main"}>
-              Professional Information
-            </Typography>
-            <Stack
-              direction={{ xs: "column", md: "row" }}
-              flexWrap={"wrap"}
-              gap={2}
-            >
-              <StyledInformationBox>
-                <Typography variant="caption" color="secondary">
-                  Anointment Fee
-                </Typography>
-                <Typography>{data?.apointmentFee}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography variant="caption" color="secondary">
-                  Qualification
-                </Typography>
-                <Typography>{data?.qualification}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography variant="caption" color="secondary">
-                  Current Working Place
-                </Typography>
-                <Typography>{data?.currentWorkingPlace}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography variant="caption" color="secondary">
-                  Joined
-                </Typography>
-                <Typography>
-                  {data
-                    ? new Date(data.createdAt).toLocaleDateString("en-US", {
-                        month: "2-digit",
-                        day: "2-digit",
-                        year: "2-digit",
-                      })
-                    : null}
-                </Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography variant="caption" color="secondary">
-                  Current Status
-                </Typography>
-                <Typography>{data?.status}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography variant="caption" color="secondary">
-                  Average Rating
-                </Typography>
-                <Typography>{data?.averageRating}</Typography>
-              </StyledInformationBox>
-              <StyledInformationBox>
-                <Typography variant="caption" color="secondary">
-                  experience
-                </Typography>
-                <Typography>{data?.experience}</Typography>
-              </StyledInformationBox>
-            </Stack>
-          </>
+        <Grid xs={12} md={8}>
+          <DoctorInformation data={data} />
         </Grid>
       </Grid>
     </Container>
