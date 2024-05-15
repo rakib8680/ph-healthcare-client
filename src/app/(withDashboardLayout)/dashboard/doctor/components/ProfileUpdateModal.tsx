@@ -1,7 +1,11 @@
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
+import PHSelectField from "@/components/Forms/PHSelectField";
 import PHFullScreenModal from "@/components/Shared/PHModal/PHFullScreenModal";
-import { Grid } from "@mui/material";
+import { useGetDoctorQuery } from "@/redux/api/doctorApi";
+import { Gender } from "@/types";
+import { Button, Grid } from "@mui/material";
+import { FieldValues } from "react-hook-form";
 
 
 
@@ -30,22 +34,27 @@ type TProps = {
 // });
 
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
-//    const { data: doctorData, refetch, isSuccess } = useGetDoctorQuery(id);
+   const { data: doctorData, refetch, isSuccess } = useGetDoctorQuery(id);
 //    const { data: allSpecialties } = useGetAllSpecialtiesQuery(undefined);
 //    const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
 
 //    const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
 
 
-//    const submitHandler = async (values: FieldValues) => {
-//       const specialties = selectedSpecialtiesIds.map(
-//          (specialtiesId: string) => ({
-//             specialtiesId,
-//             isDeleted: false,
-//          })
-//       );
+// console.log(doctorData);
 
-      console.log({ id });
+
+
+   const submitHandler = async (values: FieldValues) => {
+    //   const specialties = selectedSpecialtiesIds.map(
+    //      (specialtiesId: string) => ({
+    //         specialtiesId,
+    //         isDeleted: false,
+    //      })
+    //   );
+    }
+
+    //   console.log({ id });
       // return;
 
 
@@ -53,14 +62,14 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
    return (
       <PHFullScreenModal open={open} setOpen={setOpen} title='Update Profile'>
          <PHForm
-            // onSubmit={submitHandler}
-            // defaultValues={doctorData}
+            onSubmit={submitHandler}
+            defaultValues={doctorData}
             // resolver={zodResolver(validationSchema)}
          >
             <Grid container spacing={2} sx={{ my: 5 }}>
                <Grid item xs={12} sm={12} md={4}>
                   <PHInput name='name' label='Name' sx={{ mb: 2 }} fullWidth />
-               </Grid>
+               </Grid>  
                <Grid item xs={12} sm={12} md={4}>
                   <PHInput
                      name='email'
@@ -147,15 +156,15 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
                   />
                </Grid>
                <Grid item xs={12} sm={12} md={4}>
-                  <MultipleSelectChip
+                  {/* <MultipleSelectChip
                      allSpecialties={allSpecialties}
                      selectedIds={selectedSpecialtiesIds}
                      setSelectedIds={setSelectedSpecialtiesIds}
-                  />
+                  /> */}
                </Grid>
             </Grid>
 
-            <Button type='submit' disabled={updating}>
+            <Button type='submit' >
                Save
             </Button>
          </PHForm>
