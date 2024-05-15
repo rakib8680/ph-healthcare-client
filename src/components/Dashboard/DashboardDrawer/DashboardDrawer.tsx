@@ -11,7 +11,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "@/app/(withDashboardLayout)/dashboard/Sidebar/Sidebar";
 import { Avatar, Badge, CircularProgress, Stack } from "@mui/material";
-import { useGetSingleUserQuery } from "@/redux/api/userApi";
+import { useGetMyProfileQuery } from "@/redux/api/userApi";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountMenu from "../AccountMenu/AccountMenu";
 
@@ -25,7 +25,7 @@ export default function DashboardDrawer({
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const { data, isLoading } = useGetSingleUserQuery({});
+  const { data, isLoading } = useGetMyProfileQuery({});
 
   const handleDrawerClose = () => {
     setIsClosing(true);
