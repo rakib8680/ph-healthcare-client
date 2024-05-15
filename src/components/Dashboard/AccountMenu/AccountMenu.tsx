@@ -12,6 +12,8 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useRouter } from "next/navigation";
 import { removeFromLocalStorage } from "@/utils/local-storage";
 import { authKey } from "@/constants/authkey";
+import Link from "next/link";
+import { getUserInfo } from "@/services/auth.service";
 
 const menuStyles = {
   paper: {
@@ -57,6 +59,13 @@ export default function AccountMenu() {
     router.push("/login");
   };
 
+
+
+  const user= getUserInfo();
+  const role = user?.role;
+
+
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -100,10 +109,11 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+        <Link href={`/dashboard/${role}/profile`}>
         <MenuItem onClick={handleClose}>
           <Avatar sx={{ background: "transparent", color: "primary.main" }} />
           Profile
-        </MenuItem>
+        </MenuItem></Link>
 
         <Divider />
 

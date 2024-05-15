@@ -91,6 +91,9 @@ export default function DashboardDrawer({
             >
               Welcome To PH Health Care !
             </Typography>
+
+
+            {/* profile and notification */}
             <Stack direction="row" gap={3}>
               <Badge badgeContent={1} color="primary">
                 <IconButton sx={{ background: "#ffffff" }}>

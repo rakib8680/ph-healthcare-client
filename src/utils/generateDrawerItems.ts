@@ -9,9 +9,21 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import TryIcon from "@mui/icons-material/Try";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
+
+
 
 export const drawerItems = (role: TUserRole) => {
   const roleMenus: DrawerItem[] = [];
+
+  const defaultMenus = [
+    {
+      title: "Profile",
+      path: `${role}/profile`,
+      icon: AccountCircleIcon,
+    },
+  ];
 
   switch (role) {
     case USER_ROLE.SUPER_ADMIN:
@@ -113,5 +125,5 @@ export const drawerItems = (role: TUserRole) => {
       break;
   }
 
-  return [...roleMenus];
+  return [...roleMenus, ...defaultMenus];
 };
