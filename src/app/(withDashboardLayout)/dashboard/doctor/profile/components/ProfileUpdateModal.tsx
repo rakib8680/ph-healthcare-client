@@ -6,6 +6,9 @@ import { useGetDoctorQuery } from "@/redux/api/doctorApi";
 import { Gender } from "@/types";
 import { Button, Grid } from "@mui/material";
 import { FieldValues } from "react-hook-form";
+import MultipleSelectChip from "./MultipleSelectChip";
+import { useState } from "react";
+import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
 
 
 
@@ -35,8 +38,8 @@ type TProps = {
 
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
    const { data: doctorData, refetch, isSuccess } = useGetDoctorQuery(id);
-//    const { data: allSpecialties } = useGetAllSpecialtiesQuery(undefined);
-//    const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
+   const { data: allSpecialties } = useGetAllSpecialtiesQuery(undefined);
+   const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
 
 //    const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
 
@@ -46,12 +49,14 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
 
 
    const submitHandler = async (values: FieldValues) => {
-    //   const specialties = selectedSpecialtiesIds.map(
-    //      (specialtiesId: string) => ({
-    //         specialtiesId,
-    //         isDeleted: false,
-    //      })
-    //   );
+
+      console.log(values); 
+      const specialties = selectedSpecialtiesIds.map(
+         (specialtiesId: string) => ({
+            specialtiesId,
+            isDeleted: false,
+         })
+      );
     }
 
     //   console.log({ id });
@@ -156,11 +161,11 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
                   />
                </Grid>
                <Grid item xs={12} sm={12} md={4}>
-                  {/* <MultipleSelectChip
+                  <MultipleSelectChip
                      allSpecialties={allSpecialties}
                      selectedIds={selectedSpecialtiesIds}
                      setSelectedIds={setSelectedSpecialtiesIds}
-                  /> */}
+                  />
                </Grid>
             </Grid>
 

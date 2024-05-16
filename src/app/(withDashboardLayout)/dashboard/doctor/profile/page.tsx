@@ -7,11 +7,11 @@ import {
 import { Box, Button, CircularProgress, Container } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Image from "next/image";
-import DoctorInformation from "../components/DoctorInformation";
+import DoctorInformation from "./components/DoctorInformation";
 import AutoFileUploader from "@/components/Forms/AutoFileUploader";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { toast } from "sonner";
-import ProfileUpdateModal from "../components/ProfileUpdateModal";
+import ProfileUpdateModal from "./components/ProfileUpdateModal";
 import { useState } from "react";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
