@@ -7,7 +7,7 @@ import { Gender } from "@/types";
 import { Button, Grid } from "@mui/material";
 import { FieldValues } from "react-hook-form";
 import MultipleSelectChip from "./MultipleSelectChip";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -40,21 +40,30 @@ const validationSchema = z.object({
 });
 
 
+
+
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
    const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
-   const { data: doctorData, refetch } = useGetDoctorQuery(id);
+   const { data: doctorData, refetch, isSuccess } = useGetDoctorQuery(id);
    const { data: allSpecialties } = useGetAllSpecialtiesQuery(undefined);
    const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
 
 
-// console.log(doctorData);
+
+   useEffect(()=>{
+         if(!isSuccess) return;
+
+         setSelectedSpecialtiesIds(doctorData?.doctorSpecialties.map((sp:any) =>{
+            return sp?.specialtiesId;
+         }))   
+
+   },[isSuccess, doctorData])
 
 
 
    const submitHandler = async (values: FieldValues) => {
 
-      // values.experience = Number(values.experience);
-      // values.apointmentFee = Number(values.apointmentFee);
+
 
       const specialties = selectedSpecialtiesIds.map(
          (specialtiesId: string) => ({
@@ -100,7 +109,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
         const res =await updateDoctor(payload).unwrap();
           console.log(res);
         if(res?.id){
-      //   await refetch();
+         refetch();
          toast.success("Doctor updated successfully!!!")
          }
          setOpen(false);
