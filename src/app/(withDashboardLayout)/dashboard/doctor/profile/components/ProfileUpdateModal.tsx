@@ -10,6 +10,8 @@ import MultipleSelectChip from "./MultipleSelectChip";
 import { useState } from "react";
 import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
 import { toast } from "sonner";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 
 
@@ -19,23 +21,24 @@ type TProps = {
    id: string;
 };
 
-// const validationSchema = z.object({
-//    experience: z.preprocess(
-//       (x) => (x ? x : undefined),
-//       z.coerce.number().int().optional()
-//    ),
-//    apointmentFee: z.preprocess(
-//       (x) => (x ? x : undefined),
-//       z.coerce.number().int().optional()
-//    ),
-//    name: z.string().optional(),
-//    contactNumber: z.string().optional(),
-//    registrationNumber: z.string().optional(),
-//    gender: z.string().optional(),
-//    qualification: z.string().optional(),
-//    currentWorkingPlace: z.string().optional(),
-//    designation: z.string().optional(),
-// });
+const validationSchema = z.object({
+   experience: z.preprocess(
+      (x) => (x ? x : undefined),
+      z.coerce.number().int().optional()
+   ),
+   apointmentFee: z.preprocess(
+      (x) => (x ? x : undefined),
+      z.coerce.number().int().optional()
+   ),
+   name: z.string().optional(),
+   contactNumber: z.string().optional(),
+   registrationNumber: z.string().optional(),
+   gender: z.string().optional(),
+   qualification: z.string().optional(),
+   currentWorkingPlace: z.string().optional(),
+   designation: z.string().optional(),
+});
+
 
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
    const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
@@ -50,8 +53,8 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
 
    const submitHandler = async (values: FieldValues) => {
 
-      values.experience = Number(values.experience);
-      values.apointmentFee = Number(values.apointmentFee);
+      // values.experience = Number(values.experience);
+      // values.apointmentFee = Number(values.apointmentFee);
 
       const specialties = selectedSpecialtiesIds.map(
          (specialtiesId: string) => ({
@@ -97,7 +100,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
         const res =await updateDoctor(payload).unwrap();
           console.log(res);
         if(res?.id){
-        await refetch();
+      //   await refetch();
          toast.success("Doctor updated successfully!!!")
          }
          setOpen(false);
@@ -118,7 +121,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
          <PHForm
             onSubmit={submitHandler}
             defaultValues={doctorData}
-            // resolver={zodResolver(validationSchema)}
+            resolver={zodResolver(validationSchema)}
          >
             <Grid container spacing={2} sx={{ my: 5 }}>
                <Grid item xs={12} sm={12} md={4}>
