@@ -16,6 +16,7 @@ import { useState } from "react";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 const DoctorProfile = () => {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading } = useGetMyProfileQuery(undefined);
@@ -23,7 +24,8 @@ const DoctorProfile = () => {
 
   // console.log(data);
 
-  // update profile handler
+
+  // update profile photo handler
   const fileUploadHandler = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -51,9 +53,11 @@ const DoctorProfile = () => {
     </Box>;
   }
 
+
   return (
     <>
       <ProfileUpdateModal open={isModalOpen} setOpen={setIsModalOpen} id={data?.id} />
+
       <Container>
         <Grid container spacing={2}>
           <Grid xs={12} md={4}>
@@ -109,6 +113,7 @@ const DoctorProfile = () => {
           <Grid xs={12} md={8}>
             <DoctorInformation data={data} />
           </Grid>
+
         </Grid>
       </Container>
     </>
