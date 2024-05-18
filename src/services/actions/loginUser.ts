@@ -1,6 +1,7 @@
-// "use server";
 
 import { FieldValues } from "react-hook-form";
+import setAccessToken from "./setAccessToken";
+
 
 // login user
 export const loginUser = async (data: FieldValues) => {
@@ -18,6 +19,12 @@ export const loginUser = async (data: FieldValues) => {
   );
 
   const loginInfo = await res.json();
+
+  if(loginInfo.data.accessToken){
+    setAccessToken(loginInfo.data.accessToken, {
+      redirect: "/dashboard"
+    })
+  }
 
   return loginInfo;
 };
