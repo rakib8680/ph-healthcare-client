@@ -10,7 +10,7 @@ import ReviewsIcon from "@mui/icons-material/Reviews";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import TryIcon from "@mui/icons-material/Try";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import KeyIcon from "@mui/icons-material/Key";
 
 
 
@@ -22,6 +22,11 @@ export const drawerItems = (role: TUserRole) => {
       title: "Profile",
       path: `${role}/profile`,
       icon: AccountCircleIcon,
+    },
+    {
+      title: "Change Password",
+      path: `change-password`,
+      icon: KeyIcon,
     },
   ];
 
