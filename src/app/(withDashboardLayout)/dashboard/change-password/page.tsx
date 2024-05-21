@@ -110,6 +110,7 @@ const ChangePassword = () => {
           change Password
         </Button>
       </PHForm>
+      
     </Box>
   );
 };
