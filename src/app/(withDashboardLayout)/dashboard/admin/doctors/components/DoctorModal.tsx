@@ -9,6 +9,7 @@ import { Gender } from "@/types";
 import { useCreateDoctorMutation } from "@/redux/api/doctorApi";
 import { modifyPayloadData } from "@/utils/modifyPayloadData";
 
+
 type TProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ type TProps = {
 
 const DoctorModal = ({ open, setOpen }: TProps) => {
   const [createDoctor] = useCreateDoctorMutation();
+
 
   const handleFormSubmit = async (values: FieldValues) => {
     // console.log(values);
@@ -36,6 +38,7 @@ const DoctorModal = ({ open, setOpen }: TProps) => {
     }
   };
 
+
   const defaultValues = {
     doctor: {
       email: "",
@@ -53,6 +56,8 @@ const DoctorModal = ({ open, setOpen }: TProps) => {
     },
     password: "",
   };
+
+
 
   return (
     <PHFullScreenModal open={open} setOpen={setOpen} title="Create New Doctor">

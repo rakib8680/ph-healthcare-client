@@ -26,12 +26,12 @@ import Link from "next/link";
 const DoctorsPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
 
 
   // Queries
   const query: Record<string, any> = {};
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
     delay: 600,
