@@ -13,7 +13,7 @@ type TProps = {
 const VideoCallingPage = ({searchParams}:TProps) => {
 
     const { videoCallingId } = searchParams;
-    console.log(videoCallingId);
+    // console.log(videoCallingId);
 
   return  <VideoCall videoCallingId={videoCallingId} />;
 };
