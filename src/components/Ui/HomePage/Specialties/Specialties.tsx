@@ -70,6 +70,8 @@ const Specialties = async () => {
                   },
                 },
               }}
+              component={Link}
+              href={`/doctors?specialties=${specialty.title}`}
             >
               <Image
                 src={specialty.icon}
